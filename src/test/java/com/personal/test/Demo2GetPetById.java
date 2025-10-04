@@ -2,6 +2,7 @@ package com.personal.test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.personal.model.Category;
+import com.personal.model.Pet;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.apache.http.HttpStatus;
@@ -9,6 +10,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.xml.transform.Source;
+
+/**
+ * Deserializtion
+ */
 
 public class Demo2GetPetById {
 
@@ -65,16 +70,44 @@ public class Demo2GetPetById {
 
     @Test
     public void demo3GetPetByIdPojoclass(){
-        Category catObj1 = new Category();
-        Category catObj2 = new Category();
 
-        catObj1.setId(3000);
+        Pet petObj = RestAssured
+                .given()
+                .pathParam("petId", 5)
+                .when().get(baseUrl + "pet/{petId}")
+                .then().statusCode(HttpStatus.SC_OK).extract().as(Pet.class);
 
-        System.out.println(catObj1.getId());
-        System.out.println(catObj1.getName());
+        System.out.println(petObj.getId());
+        System.out.println(petObj.getCategory().getId());
+        System.out.println(petObj.getTags().get(0).getId());
 
-        System.out.println(catObj2.getId());
-        System.out.println(catObj2.getName());
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
