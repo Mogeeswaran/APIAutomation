@@ -1,6 +1,7 @@
 package com.personal.test;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.personal.model.Category;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.apache.http.HttpStatus;
@@ -55,6 +56,25 @@ public class Demo2GetPetById {
         System.out.println(jsonPathObj.getString("category.id"));
         System.out.println(jsonPathObj.getString("tags[0].id"));
 //        System.out.println(jsonPathObj.getList("tags[*].id"));
+
+    }
+
+    /**
+     * Pojo class - type safety, easy maintenance, stable for automation, schema validation
+     */
+
+    @Test
+    public void demo3GetPetByIdPojoclass(){
+        Category catObj1 = new Category();
+        Category catObj2 = new Category();
+
+        catObj1.setId(3000);
+
+        System.out.println(catObj1.getId());
+        System.out.println(catObj1.getName());
+
+        System.out.println(catObj2.getId());
+        System.out.println(catObj2.getName());
 
     }
 }
