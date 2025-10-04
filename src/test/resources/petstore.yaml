@@ -13,8 +13,7 @@ paths:
       summary: Find pet By Id
       operationId: getPetById
       tags:
-        -pet
-
+        - pet
       parameters:
         - name: petId
           in: path
@@ -23,7 +22,7 @@ paths:
           schema:
             type: integer
             format: int64
-      response:
+      responses:
         '200':
           description: Pet found
           content:
@@ -78,20 +77,20 @@ components:
         status:
           type: string
           enum:
-            -available
-            -sold
-            -pending
+            - available
+            - sold
+            - pending
 
     PetNotFound:
       type: object
       required:
-        -type
-        -code
-        -message
+        - type
+        - code
+        - message
       properties:
-        code :
+        code:
           type: integer
-        type :
+        type:
           type: string
         message:
           type: string

@@ -1,5 +1,6 @@
 package com.personal.test;
 
+import com.atlassian.oai.validator.restassured.OpenApiValidationFilter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.personal.model.Category;
 import com.personal.model.Pet;
@@ -80,8 +81,22 @@ public class Demo2GetPetById {
         System.out.println(petObj.getId());
         System.out.println(petObj.getCategory().getId());
         System.out.println(petObj.getTags().get(0).getId());
+    }
 
+    @Test
+    public void demo4OpenAPISpecVerify(){
 
+        OpenApiValidationFilter openApiValidationFilter = new OpenApiValidationFilter("src/test/resources/petstore.yaml");
+
+        Pet petObj = RestAssured
+                .given()
+                .pathParam("petId",50)
+                .when().get(baseUrl + "pet/{petId}")
+                .then().statusCode(200).extract().as(Pet.class);
+
+        System.out.println(petObj.getId());
+        System.out.println(petObj.getCategory().getId());
+        System.out.println(petObj.getTags().get(0).getId());
     }
 }
 
