@@ -3,7 +3,7 @@ package com.personal.model;
 import java.util.List;
 
 public class Pet {
-    private int id;
+    private Long id;
     private Category category;
     private String name;
     private List<String> photoUrls;
@@ -18,11 +18,11 @@ public class Pet {
         this.category = category;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

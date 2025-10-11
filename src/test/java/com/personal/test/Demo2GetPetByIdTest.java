@@ -2,7 +2,6 @@ package com.personal.test;
 
 import com.atlassian.oai.validator.restassured.OpenApiValidationFilter;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.personal.model.Category;
 import com.personal.model.Pet;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
@@ -10,13 +9,11 @@ import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import javax.xml.transform.Source;
-
 /**
  * Deserializtion
  */
 
-public class Demo2GetPetById {
+public class Demo2GetPetByIdTest {
 
     public String baseUrl = "https://petstore.swagger.io/v2/";
 
@@ -90,13 +87,50 @@ public class Demo2GetPetById {
 
         Pet petObj = RestAssured
                 .given()
-                .pathParam("petId",50)
+                .pathParam("petId",1)
                 .when().get(baseUrl + "pet/{petId}")
                 .then().statusCode(200).extract().as(Pet.class);
 
         System.out.println(petObj.getId());
         System.out.println(petObj.getCategory().getId());
         System.out.println(petObj.getTags().get(0).getId());
+    }
+
+    @Test
+    public void demo6AddValidPet(){
+
+        OpenApiValidationFilter openApiValidationFilter = new OpenApiValidationFilter("src/test/resources/petstore.yaml");
+
+        String jsonBody = "{\n" +
+                "  \"id\": 558,\n" +
+                "  \"category\": {\n" +
+                "    \"id\": 0,\n" +
+                "    \"name\": \"string\"\n" +
+                "  },\n" +
+                "  \"name\": \"doggie\",\n" +
+                "  \"photoUrls\": [\n" +
+                "    \"string\"\n" +
+                "  ],\n" +
+                "  \"tags\": [\n" +
+                "    {\n" +
+                "      \"id\": 0,\n" +
+                "      \"name\": \"string\"\n" +
+                "    }\n" +
+                "  ],\n" +
+                "  \"status\": \"available\"\n" +
+                "}";
+
+        Pet petResponse = RestAssured
+                .given()
+                .filter(openApiValidationFilter)
+                .contentType("application/json")
+                .body(jsonBody)
+                .post(baseUrl+"pet")
+                .then()
+                .statusCode(200).extract().as(Pet.class);
+
+        System.out.println(petResponse.getId());
+        Assert.assertEquals(petResponse.getId(),558);
     }
 }
 
